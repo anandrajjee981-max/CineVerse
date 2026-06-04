@@ -1,0 +1,88 @@
+// Obsidian Glass Theme Colors
+$bg-obsidian: #09090b; 
+$text-pure: #ffffff;
+$text-muted: rgba(255, 255, 255, 0.5);
+
+// Glassmorphism Mixin
+@mixin glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.premium-filter-bar-container {
+  position: relative;
+  width: 100%;
+  background-color: $bg-obsidian;
+  padding: 16px 4%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  // Obsidian edge masking gradient
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, $bg-obsidian 90%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .scrollable-tabs-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; 
+
+    &::-webkit-scrollbar {
+      display: none; 
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .filter-tab-btn {
+    display: inline-block;
+    padding: 10px 22px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: $text-muted;
+    border-radius: 20px; // Capsule look
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    @include glass-panel;
+
+    @media (min-width: 768px) {
+      font-size: 0.92rem;
+      padding: 11px 26px;
+    }
+
+    &:hover {
+      color: $text-pure;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &.is-active {
+      color: #000000;
+      background: $text-pure;
+      border-color: $text-pure;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+
+      &:hover {
+        color: #000000;
+        background: $text-pure;
+      }
+    }
+  }
+}

@@ -1,0 +1,223 @@
+$bg-obsidian-gradient: linear-gradient(90deg, rgba(4, 4, 6, 0.98) 0%, rgba(9, 9, 11, 0.4) 100%);
+$bg-mobile-header: rgba(9, 9, 11, 0.5);
+$bg-glass-dropdown: rgba(15, 15, 18, 0.85);
+$text-pure-white: #ffffff;
+$text-muted-gray: rgba(255, 255, 255, 0.55);
+$active-glow-color: rgba(255, 255, 255, 0.08);
+
+/* =====================================================
+   DESKTOP VIEWPORT SETUP (768px and Above)
+===================================================== */
+.hotstar-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 80px;
+  z-index: 100;
+  display: none; // Hidden natively on screens below tablet
+  flex-direction: column;
+  background: transparent;
+  padding: 30px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+
+  &.sidebar-expanded {
+    background: $bg-obsidian-gradient;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 25px 0 60px rgba(0, 0, 0, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .brand-logo-container {
+    width: 100%;
+    padding-left: 26px;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+
+    .star-logo {
+      width: 28px;
+      height: 28px;
+      color: $text-pure-white;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    }
+  }
+
+  .nav-links-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .nav-item-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    padding-left: 26px;
+    color: $text-muted-gray;
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+    transition: color 0.2s ease;
+
+    .icon-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+    }
+
+    .nav-label-text {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-left: 18px;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      color: $text-pure-white;
+    }
+
+    &.is-active {
+      color: $text-pure-white;
+      background: $active-glow-color;
+      font-weight: 600;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 15%;
+        height: 70%;
+        width: 4px;
+        background: $text-pure-white;
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+}
+
+/* =====================================================
+   MOBILE VIEWPORT SETUP (Below 768px)
+===================================================== */
+.mobile-premium-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: $bg-mobile-header;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    display: none; // Completely absent on desktop viewports
+  }
+
+  .mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .star-logo {
+      width: 24px;
+      height: 24px;
+      color: $text-pure-white;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: $text-pure-white;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  .mobile-menu-trigger {
+    background: transparent;
+    border: none;
+    color: $text-pure-white;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  /* Ultra Clean Glass Overlay Grid Dropdown */
+  .mobile-dropdown-menu {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    background: $bg-glass-dropdown;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    box-sizing: border-box;
+
+    .dropdown-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); // Beautiful dual grid layout
+      gap: 12px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 48px;
+      padding: 0 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      color: $text-muted-gray;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+
+      .dropdown-icon {
+        color: inherit;
+        display: flex;
+        align-items: center;
+      }
+
+      .dropdown-label {
+        font-size: 0.92rem;
+        font-weight: 500;
+      }
+
+      &:active {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      &.is-active {
+        color: $text-pure-white;
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}

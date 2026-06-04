@@ -1,0 +1,241 @@
+$bg-absolute-black: #09090b;
+$obsidian-card: rgba(18, 18, 22, 0.45);
+$white-pure: #ffffff;
+$text-dim: rgba(255, 255, 255, 0.6);
+
+.premium-cinema-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; // Fallback for pure content containment
+  background-color: $bg-absolute-black;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  @media (min-width: 768px) {
+    height: 85vh;
+    min-height: auto;
+  }
+}
+
+/* Media Viewport Background Handling */
+.backdrop-viewport {
+  position: relative;
+  width: 100%;
+  height: 40vh; // Image takes top portion cleanly on mobile
+  z-index: 1;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .cinema-backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  .vignette-cinematic-mask {
+    position: absolute;
+    inset: 0;
+    // Massive fading layers that dynamically map back into black base wrapper
+    background: linear-gradient(to bottom, transparent 30%, $bg-absolute-black 100%);
+
+    @media (min-width: 768px) {
+      background: 
+        linear-gradient(to bottom, transparent 40%, $bg-absolute-black 98%),
+        linear-gradient(to right, $bg-absolute-black 0%, rgba(9, 9, 11, 0.85) 30%, transparent 75%);
+    }
+  }
+}
+
+/* Interface Layer Flow System */
+.cinema-interface-layer {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 40px 20px;
+  margin-top: -40px; // Pull content upward slightly over the mobile image vignette fade
+  box-sizing: border-box;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+    padding: 0 6%;
+    flex-direction: row; // Split style distribution across large grids
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Glass Presentation Display */
+.glass-card-showcase {
+  width: 100%;
+  padding: 24px;
+  border-radius: 20px;
+  background: $obsidian-card;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    left: 6%;
+    max-width: 520px;
+    padding: 36px;
+    gap: 16px;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 580px;
+    left: 8%;
+  }
+
+  .meta-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .epic-title {
+    font-size: clamp(1.5rem, 5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: $white-pure;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .epic-description {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: $text-dim;
+    margin: 0;
+  }
+}
+
+/* Button UI Rules */
+.button-action-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  width: 100%;
+
+  .btn-primary-glow, .btn-secondary-glass {
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    flex: 1; // Stretch naturally inside row containers on small phones
+    box-sizing: border-box;
+
+    @media (min-width: 480px) {
+      flex: none;
+      padding: 0 28px;
+    }
+
+    @media (min-width: 768px) {
+      height: 48px;
+    }
+  }
+
+  .btn-primary-glow {
+    background: $white-pure;
+    color: #000000;
+    border: none;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+  }
+
+  .btn-secondary-glass {
+    background: rgba(255, 255, 255, 0.05);
+    color: $white-pure;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Fluid UI Control Positions */
+.cinema-controls-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px; // Stacks underneath fluidly on phones
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    margin-top: 0;
+    padding: 0 6%;
+  }
+  
+  @media (min-width: 1200px) {
+    padding: 0 8%;
+  }
+
+  .pagination-indicator-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .pill-dot {
+      height: 4px;
+      width: 12px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.35s ease;
+
+      &.active {
+        width: 32px;
+        background: $white-pure;
+      }
+    }
+  }
+
+  .arrow-nav-group {
+    display: flex;
+    gap: 8px;
+
+    .arrow-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(20, 20, 25, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: $white-pure;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+  }
+}

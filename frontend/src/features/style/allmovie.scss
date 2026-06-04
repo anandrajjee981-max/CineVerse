@@ -1,0 +1,314 @@
+// ==========================================================================
+// LOCOMOTIVE V5 SMOOTHING INITIALIZERS (Compulsory Override)
+// ==========================================================================
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  scroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+// ==========================================================================
+// CORE LAYOUT STYLES
+// ==========================================================================
+$bg-dark: #09090e; 
+$accent-color: #e50914; 
+$text-main: #ffffff;
+$text-muted: #8c8c93;
+
+.jiohotstar-showcase-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-dark;
+  padding: 40px 4%;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  .section-main-heading {
+    font-size: 2rem;
+    color: $text-main;
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: -0.5px;
+  }
+
+  // Pure Vertical Grid Wrap Structure
+  .movies-flex-wrap-grid {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 24px 20px;  
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  // ==========================================
+  // MOVIE PREMIUM CARD THEME
+  // ==========================================
+  .movie-premium-card {
+    width: calc(20% - 16px); // Standard 5 columns on desktop
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    &:hover {
+      transform: translateY(-6px);
+      
+      .poster-frame-wrapper .glass-hover-slider-panel {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    // Media Device Breakpoints configuration
+    @media (max-width: 1400px) { width: calc(25% - 15px); } // 4 Columns
+    @media (max-width: 992px)  { width: calc(33.33% - 14px); } // 3 Columns
+    @media (max-width: 576px)  { width: calc(50% - 10px); } // 2 Columns on mobile
+
+    .poster-frame-wrapper {
+      position: relative;
+      width: 100%;
+      height: 320px; 
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      background-color: #14141d;
+
+      @media (max-width: 576px) {
+        height: 240px; 
+      }
+
+      .movie-raw-poster {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-save-trigger {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: #ffffff;
+        padding: 8px;
+        border-radius: 50%;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s, transform 0.2s;
+
+        &:hover {
+          background: $accent-color;
+          transform: scale(1.1);
+        }
+      }
+
+      // Glassmorphic Layer Panel
+      .glass-hover-slider-panel {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 40%, rgba(0, 0, 0, 0.3) 100__);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 16px;
+        display: flex;
+        align-items: flex-end;
+        box-sizing: border-box;
+        z-index: 5;
+        opacity: 0;
+        transform: translateX(-10px); 
+        transition: opacity 0.3s ease, transform 0.3s ease;
+
+        @media (max-width: 768px) {
+          display: none; // Disable on touch screen viewport to avoid mouse state lock
+        }
+      }
+
+      .slider-panel-content {
+        width: 100%;
+
+        .meta-release-year {
+          font-size: 11px;
+          color: #d1d1d6;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-bottom: 6px;
+        }
+
+        .hover-movie-title {
+          font-size: 1.15rem;
+          color: #ffffff;
+          margin: 0 0 8px 0;
+          font-weight: 700;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .hover-movie-cast {
+          font-size: 11px;
+          color: #c7c7cc;
+          line-height: 1.4;
+          margin: 0 0 12px 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .hover-genre-pill-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 14px;
+
+          .genre-pill {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            padding: 3px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+          }
+        }
+
+        .premium-inline-play-btn {
+          width: 100%;
+          background: #ffffff;
+          border: none;
+          color: #000000;
+          padding: 10px;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s, color 0.2s;
+
+          &:hover {
+            background-color: $accent-color;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+
+    .mobile-static-metadata {
+      margin-top: 10px;
+      padding: 0 4px;
+
+      .mobile-title-text {
+        font-size: 14px;
+        color: $text-main;
+        font-weight: 500;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  // Loaders
+  .premium-loader-container {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $text-main;
+    gap: 16px;
+
+    .obsidian-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: $accent-color;
+      animation: spin 1s linear infinite;
+    }
+    p { font-size: 14px; color: $text-muted; }
+  }
+
+  .premium-error-banner {
+    width: 100%;
+    padding: 16px;
+    background: rgba(229, 9, 20, 0.1);
+    border: 1px solid rgba(229, 9, 20, 0.3);
+    border-radius: 8px;
+    color: #ff4d4d;
+    text-align: center;
+  }
+
+  .mini-loader {
+    width: 100%;
+    text-align: center;
+    color: $text-muted;
+    padding: 30px 0;
+    font-size: 13px;
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Trailer Modal CSS --- */
+.trailer-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85); /* Dark transparent background */
+  backdrop-filter: blur(5px);
+  z-index: 99999; /* Isko highest rakhna hai taaki sabke upar dikhe */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .trailer-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    .close-trailer-btn {
+      position: absolute;
+      top: -45px;
+      right: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
