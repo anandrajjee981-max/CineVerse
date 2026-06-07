@@ -1,0 +1,100 @@
+// ==========================================================================
+// CATEGORY LAYOUT OVERRIDES & FILTER PILLS
+// ==========================================================================
+$bg-dark: #09090e;
+$accent-color: #e50914;
+$text-main: #ffffff;
+$surface-grey: rgba(255, 255, 255, 0.06);
+
+.category-filter-wrapper {
+  width: 100%;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 20;
+  overflow: hidden;
+
+  .category-scroll-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 6px 4px;
+    scrollbar-width: none; // Firefox
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+
+    &::-webkit-scrollbar {
+      display: none; // Safari & Chrome
+    }
+  }
+
+  // 🔥 HIGH-PERFORMANCE PILL BUTTONS
+  .category-pill-btn {
+    flex-shrink: 0;
+    background: $surface-grey;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    color: #e1e1e6;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    
+    // Smooth independent color shifts (No layout reflows)
+    will-change: background-color, border-color, transform;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      border-color: #ffffff;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// Global Performance-Safe Toast Box Styling
+.premium-toast-alert {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(20, 20, 20, 0.95);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 12px;
+  z-index: 10000;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 14px;
+  pointer-events: none; // Click-through safeguard
+}
+
+// Mini layout states optimization
+.mini-loader-empty {
+  width: 100%;
+  color: #8c8c93;
+  text-align: center;
+  padding: 80px 0;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+// Content-visibility implementation handled globally inside SCSS compiler boundary
+.movie-raw-poster {
+  content-visibility: auto;
+  contain-intrinsic-size: 100% 320px;
+}
