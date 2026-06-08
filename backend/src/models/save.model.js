@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const saveschema = new mongoose.Schema({
 username : {
-    ref : user,
+    ref : "user",
 type : mongoose.Schema.Types.ObjectId
 
 },
 movie : {
-    ref : Movie ,
+    ref : "Movie" ,
   type : mongoose.Schema.Types.ObjectId
 }
 

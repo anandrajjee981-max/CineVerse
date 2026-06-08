@@ -1,0 +1,213 @@
+$bg-black: #000000;
+$panel-dark: rgba(10, 11, 14, 0.8);
+$blue-glow: rgba(30, 144, 255, 0.2);
+$metallic-stroke: rgba(255, 255, 255, 0.06);
+$text-white: #ffffff;
+$text-secondary: #71717a;
+
+.login-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  background: $bg-black;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+
+  // Background rays matching image_d1624c.jpg template
+  .bg-abstract-geometry {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(circle at center, rgba(20, 80, 180, 0.3) 0%, transparent 65%);
+    filter: blur(50px);
+
+    .blade-1, .blade-2 {
+      position: absolute;
+      width: 100%;
+      height: 25px;
+      background: linear-gradient(90deg, transparent, #1e70e0, transparent);
+      top: 50%; left: 0;
+      transform: rotate(30deg);
+    }
+    .blade-2 {
+      transform: rotate(-40deg);
+    }
+  }
+
+  // Angular cut structure panel
+  .login-card {
+    position: relative;
+    z-index: 10;
+    background: $panel-dark;
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    width: 100%;
+    max-width: 440px;
+    padding: 3.5rem 3rem;
+    box-sizing: border-box;
+    box-shadow: 0 60px 120px rgba(0, 0, 0, 0.95);
+    
+    // Cutting edge top-right profile
+    clip-path: polygon(0% 0%, 76% 0%, 100% 18%, 100% 100%, 0% 100%);
+    border: 1px solid $metallic-stroke;
+
+    .brand-logo {
+      margin-bottom: 2.2rem;
+      h2 {
+        font-size: 1.7rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: $text-white;
+        margin: 0;
+      }
+    }
+
+    .card-header {
+      margin-bottom: 2rem;
+      h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: $text-white;
+        margin: 0 0 0.5rem 0;
+      }
+      .subtitle {
+        font-size: 0.85rem;
+        color: $text-secondary;
+        line-height: 1.5;
+        margin: 0;
+      }
+    }
+
+    // Dynamic Empty Pill Buttons 
+    .oauth-row {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
+
+      .oauth-option {
+        flex: 1;
+        height: 46px; // Solid default fallback frame heights
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 100px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+      }
+    }
+
+    .divider-line {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      margin-bottom: 2rem;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+
+      .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+
+        label {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
+        }
+
+        input {
+          width: 100%;
+          padding: 1rem 1.2rem;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.04);
+          border-radius: 100px; 
+          outline: none;
+          color: $text-white;
+          font-size: 0.9rem;
+          box-sizing: border-box;
+          transition: all 0.2s ease;
+
+          &:focus {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+          }
+        }
+
+        .password-input-container {
+          position: relative;
+          width: 100%;
+
+          .eye-icon {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $text-secondary;
+            cursor: pointer;
+            font-size: 0.95rem;
+          }
+        }
+      }
+
+      .login-btn {
+        margin-top: 1rem;
+        padding: 1.1rem;
+        background: $text-white;
+        color: $bg-black;
+        border: none;
+        border-radius: 100px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+
+    .login-footer {
+      margin-top: 2.5rem;
+      text-align: center;
+      p {
+        font-size: 0.85rem;
+        color: $text-secondary;
+        margin: 0;
+        .navigate-link {
+          color: $text-white;
+          cursor: pointer;
+          font-weight: 600;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+}

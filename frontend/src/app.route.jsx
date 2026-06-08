@@ -3,13 +3,15 @@ import Home from "./features/Home"
 import TrailerFeed from "./features/movies/Trailer.feed"
 import Category from "./features/movies/Category"
 import Search from "./features/movies/Search"
+import Login from "./features/pages/Login"
+import Register from "./features/pages/Register"
 
 
 
 
 export const router = createBrowserRouter([
 {
-    path : "/",
+    path : "/home",
     element : <Home/>
 }
 ,
@@ -24,6 +26,14 @@ export const router = createBrowserRouter([
 {
     path:'/search',
     element:<Search/>
+},
+{
+    path:'/',
+    element:<Login/>
+},
+{
+    path:'/register',
+    element: <Register/>
 }
 
 
