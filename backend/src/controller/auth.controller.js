@@ -97,11 +97,17 @@ async function login(req, res) {
         });
     }
 }
+async function getme(req,res){
 
+    const user = await usermodel.findById(req.user.id)
+    res.status(200).json({
+       user
+    })
+}
 
 
 
 module.exports = {
-    register , login
+    register , login , getme
 }
 

@@ -5,6 +5,8 @@ import Category from "./features/movies/Category"
 import Search from "./features/movies/Search"
 import Login from "./features/pages/Login"
 import Register from "./features/pages/Register"
+import Save from "./features/save/Save"
+import Protected from "./Protected"
 
 
 
@@ -12,7 +14,7 @@ import Register from "./features/pages/Register"
 export const router = createBrowserRouter([
 {
     path : "/home",
-    element : <Home/>
+    element :<Protected><Home/></Protected>                
 }
 ,
 {
@@ -34,6 +36,10 @@ export const router = createBrowserRouter([
 {
     path:'/register',
     element: <Register/>
+},
+{
+    path : '/save' ,
+    element : <Save/>
 }
 
 

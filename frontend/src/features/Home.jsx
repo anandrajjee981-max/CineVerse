@@ -10,25 +10,25 @@ const Home = () => {
 
   const movies = [
     {
-      image: "https://static.wixstatic.com/media/e4c430_290f6e0b1bd74c698a0393514ad073b8~mv2.jpg/v1/fill/w_1920,h_675,al_c/e4c430_290f6e0b1bd74c698a0393514ad073b8~mv2.jpg",
-      title: "Neon Cosmos",
-      tags: "Sci-Fi • Action • 2026",
-      description: "A neon-soaked journey through a rogue cyberpunk galaxy where data is the ultimate currency.",
-      link: "https://youtu.be/YDE97KrYDuU?si=uO1OrKeQlhHCctR9"
+      image: "https://img10.hotstar.com/image/upload/f_auto,q_auto/sources/r1/cms/prod/6970/1778334026970-i",
+      title: "vaazba",
+      tags: "Comedy • Action • 2026",
+      description: "Four friends labeled as losers and troublemakers embark on an emotional journey of self-discovery as they face mounting social pressure. They learn to embrace their responsibilities and find success on their own terms",
+      link: "https://youtu.be/USxwrVBOMPM?si=KAUnGtqBaSqyeIfH"
     },
     {
-      image: "https://wallpapers.com/images/hd/1982-blade-runner-poster-harrison-ford-al2adk5j2j4hm9le.jpg",
-      title: "Blade Runner: Legacy",
+      image: "https://img10.hotstar.com/image/upload/f_auto,q_auto/sources/r1/cms/prod/1400/1779172341400-i",
+      title: "hoppers",
       tags: "Thriller • Cyberpunk • Cinematic",
-      description: "Experience the dark, rain-slicked future of Neo-Noir as hidden truths finally unravel.",
-      link: "https://youtu.be/P78pl1FUXfA?si=f-kmRz3fc7vc_J23"
+      description: "A 19-year-old animal lover uses technology that places her consciousness into a robotic beaver to uncover mysteries within the animal world beyond her imagination",
+      link: "https://youtu.be/hJnAHzo4-KI?si=ssjUUobIT9YwCUnq"
     },
     {
-      image: "https://images.squarespace-cdn.com/content/v1/5bdc87e4b1059895b40f204d/1541744626410-4JF643P7V9A8HGZST3J2/RUNNER-title-card-WS.jpg",
-      title: "The Evil Runner",
-      tags: "Horror • Thriller • Suspense",
-      description: "Enter a parallel world of psychological chaos and rogue biological cybernetics.",
-      link: "https://youtu.be/AQ1hzzWJUYo?si=5Bmd9sAEvoWQ3BRJ"
+      image: "https://m.media-amazon.com/images/M/MV5BYjg4MDkyYzgtMWM3NS00Mzg4LThmNTctZjc0MzhlNGM0ODIwXkEyXkFqcGc@._V1_QL75_UX801_.jpg",
+      title: "Minions & Monsters",
+      tags: "comedy • Thriller • Suspense",
+      description: "Follows the Minions in 1920s Hollywood as they search for frightening creatures for their monster movie, partner with a green creature, and must save the planet after unleashing monsters.",
+      link: "https://youtu.be/_IeLmfsjno8?si=crfEy5AvLdMC1VkZ"
     },
     {
       image: "https://i.ytimg.com/vi/lpV4oT2G5Ak/maxresdefault.jpg",

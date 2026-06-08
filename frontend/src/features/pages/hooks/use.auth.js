@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { login , register } from '../service/auth.api';
+import { login , register ,getme} from '../service/auth.api';
 import { authStart , authFailure , authSuccess ,logout } from '../slice/auth.slice';
 import { useEffect } from "react";
 
@@ -40,31 +40,19 @@ catch(err){
 }
 }
 async function handlegetme(){
-  try{
-dispatch(authStart())
-const res = await getme()
-dispatch(authSuccess(res.user))
-return res ;
-
-
+  try {
+    dispatch(authStart())
+    const res = await getme()
+    
+    // AGAR aapka backend { user: {...} } bhejta hai toh res.user sahi hai.
+    // LEKIN agar backend direct user data bhejta hai, toh sirf res likho:
+    dispatch(authSuccess(res.user || res)) 
+    
+    return res;
   }
   catch(err){
- dispatch(
-        authFailure(
-          err.response?.data?.message ||"extract failed"
-        ))
-
+    dispatch(authFailure(err.response?.data?.message || "extract failed"))
   }
-}
-async function handlelogout(){
-try{
-
-  const res = await logoutme()
-    dispatch(logout())
-  return res
-}
-catch(err){ dispatch( authFailure(err.response?.data?.message ||"logout failed" ))
-}
 }
 
 

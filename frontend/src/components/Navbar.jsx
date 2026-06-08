@@ -1,34 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router'; // 🔥 Import useNavigate
+import { useNavigate, useLocation } from 'react-router'; // 🔥 Imported useLocation
 import { Home, Search, Tv, Clapperboard, Trophy, Flame, LayoutGrid, User, Menu, X } from 'lucide-react';
 import '../features/style/navbar.scss';
 
 const Navbar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState('Home');
-  const navigate = useNavigate(); // 🔥 Router Navigator Instance
+  const [activeItem, setActiveItem] = useState('Home'); // Default fallback
+  
+  const navigate = useNavigate();
+  const location = useLocation(); // 🔥 Get current URL location instance
 
-  // Smart Routing Map: Agar category page pe redirect karna hai toh hum custom category filters bhej sakte hain
   const navItems = [
     { name: 'Home', icon: <Home size={20} />, path: '/' },
     { name: 'Search', icon: <Search size={20} />, path: '/search' },
-    { name: 'TV', icon: <Tv size={20} />, path: '/category', defaultFilter: 'all' },
+    { name: 'TV', icon: <Tv size={20} />, path: '/category', defaultFilter: 'all' }, // logic handled via location state below
     { name: 'Movies', icon: <Clapperboard size={20} />, path: '/category', defaultFilter: 'all' },
-    { name: 'Anime', icon: <Trophy size={20} />, path: '/category', defaultFilter: 'anime' }, // Directs to Category Page with Anime Filter
+    { name: 'Anime', icon: <Trophy size={20} />, path: '/category', defaultFilter: 'anime' },
     { name: 'Sparks', icon: <Flame size={20} />, path: '/sparks' },
     { name: 'Categories', icon: <LayoutGrid size={20} />, path: '/category', defaultFilter: 'all' },
-    { name: 'My Space', icon: <User size={20} />, path: '/profile' },
+    { name: 'My Space', icon: <User size={20} />, path: '/save' },
   ];
 
-  // 🔥 CLICK HANDLER FOR ROUTING
+  // 🔥 URL Route Change Detector Effect
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const currentState = location.state;
+
+    
+    const matchedItem = navItems.find((item) => {
+      if (item.path === currentPath) {
+      
+        if (currentPath === '/category' && item.defaultFilter) {
+          return currentState?.filter === item.defaultFilter;
+        }
+        return true;
+      }
+      return false;
+    });
+
+    if (matchedItem) {
+      setActiveItem(matchedItem.name);
+    }
+  }, [location]); 
+
+
   const handleNavigation = (item) => {
-    setActiveItem(item.name);
-    setIsMobileOpen(false); // Mobile menu automatically closes on route switch
+    setIsMobileOpen(false); // Close mobile menu
 
     if (item.path) {
-      // Agar item 'Anime' hai ya koi category redirect hai, toh hum query parameters ya state pass kar sakte hain
       if (item.defaultFilter) {
         navigate(item.path, { state: { filter: item.defaultFilter } });
       } else {
@@ -58,7 +79,7 @@ const Navbar = () => {
             <div
               key={item.name}
               className={`nav-item-link ${activeItem === item.name ? 'is-active' : ''}`}
-              onClick={() => handleNavigation(item)} // 🔥 Trigger Navigation
+              onClick={() => handleNavigation(item)}
             >
               <div className="icon-box">{item.icon}</div>
               <motion.span 
@@ -83,7 +104,6 @@ const Navbar = () => {
           <span className="brand-title">CineSpace</span>
         </div>
 
-        {/* Hamburger Trigger */}
         <button 
           className="mobile-menu-trigger"
           onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -92,7 +112,6 @@ const Navbar = () => {
           {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Smooth Micro-Dropdown Overlay */}
         <AnimatePresence>
           {isMobileOpen && (
             <motion.div 
@@ -107,7 +126,7 @@ const Navbar = () => {
                   <div
                     key={item.name}
                     className={`dropdown-item ${activeItem === item.name ? 'is-active' : ''}`}
-                    onClick={() => handleNavigation(item)} // 🔥 Trigger Mobile Navigation
+                    onClick={() => handleNavigation(item)}
                   >
                     <div className="dropdown-icon">{item.icon}</div>
                     <span className="dropdown-label">{item.name}</span>

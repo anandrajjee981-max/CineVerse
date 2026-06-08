@@ -14,7 +14,7 @@ export async function allmovies(){
     }
 }
 
-// 🔥 FIXED: Added 'await' before api.get
+
 export async function category(name){
     try {
         const res = await api.get("/api/movie/category/" + name);
@@ -25,7 +25,7 @@ export async function category(name){
     }
 }
 
-// 🔥 FIXED: Added 'await' before api.get
+
 export async function search(name){
     try {
         const res = await api.get("/api/movie/search/" + name);

@@ -21,3 +21,7 @@ const res =await api.post("/api/auth/register",{
 return res.data
 
 }
+export async function getme(){
+const res = await api.get("/api/auth/getme")
+return res.data
+}

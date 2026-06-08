@@ -4,9 +4,13 @@ import { Play, Bookmark, Star } from 'lucide-react';
 import '../style/allmovie.scss';
 import { usemovie } from './hooks/movie.auth';
 import { useNavigate } from 'react-router';
+import { usesave } from '../save/hooks/save.auth';
 
 const Allmovie = () => {
+     const user = useSelector(state => state.auth.user)
+ 
   const { handleallmovie } = usemovie();
+  const { handlesave, handledelete } = usesave();
   const { movies, loading, error } = useSelector((state) => state.movies);
   const navigate = useNavigate();
   
@@ -16,6 +20,12 @@ const Allmovie = () => {
   const isFetchedRef = useRef(false);
 
   const [toastMessage, setToastMessage] = useState("");
+  if(!loading && user){
+    return navigate('/home')
+  }
+  
+  // 🔥 Tracking bookmarks via local state array matching your UI structure
+  const [bookmarkedIds, setBookmarkedIds] = useState([]);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -41,7 +51,7 @@ const Allmovie = () => {
           lenisOptions: {
             wrapper: window,
             content: document.documentElement,
-            lerp: 0.1, // Faster responsiveness
+            lerp: 0.1, 
             duration: 0.8,
             smoothWheel: true,
           }
@@ -85,6 +95,32 @@ const Allmovie = () => {
     navigate("/trailer");
   };
 
+  // 🔥 Operational Bookmark Click Handler
+  const handleBookmarkClick = async (e, movie) => {
+    e.stopPropagation(); // Stops parent grid layout hovers from breaking
+    
+    const isAlreadyBookmarked = bookmarkedIds.includes(movie._id);
+
+    try {
+      if (isAlreadyBookmarked) {
+        // If your backend deletes using title, change this to movie.title
+        await handledelete(movie._id);
+        
+        setBookmarkedIds((prev) => prev.filter((id) => id !== movie._id));
+        showToast(`${movie.title} removed from bookmarks.`);
+      } else {
+        // 🚀 FIXED: Passing movie.title to match hook expectations and prevent 404 errors
+        await handlesave(movie.title);
+        
+        setBookmarkedIds((prev) => [...prev, movie._id]);
+        showToast(`${movie.title} bookmarked!`);
+      }
+    } catch (err) {
+      console.error("Bookmark handling failed:", err);
+      showToast("Action failed. Please try again.");
+    }
+  };
+
   if (loading && movieDataList.length === 0) {
     return (
       <div className="premium-loader-container">
@@ -111,46 +147,49 @@ const Allmovie = () => {
       )}
 
       <div className="movies-flex-wrap-grid">
-        {movieDataList.slice(0, visibleCount).map((movie, index) => (
-          <div key={`${movie._id}-${index}`} className="movie-premium-card">
-            <div className="poster-frame-wrapper">
-              <img 
-                src={movie.poster_path} 
-                alt={movie.title} 
-                loading="lazy"          
-                decoding="async"        
-                className="movie-raw-poster"
-              />
-              
-              <button 
-                className="card-save-trigger" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  showToast(`${movie.title} added to watchlist!`);
-                }}
-              >
-                <Bookmark size={15} />
-              </button>
+        {movieDataList.slice(0, visibleCount).map((movie, index) => {
+          
+          const isBookmarked = bookmarkedIds.includes(movie._id);
 
-              <div className="glass-hover-slider-panel">
-                <div className="slider-panel-content">
-                  <span className="meta-release-year">
-                    <Star size={12} fill="currentColor" /> {movie.release_date}
-                  </span>
-                  <h3 className="hover-movie-title">{movie.title}</h3>
-                  <p className="hover-movie-cast">{movie.overview?.substring(0, 90)}...</p>
-                  
-                  <button className="premium-inline-play-btn" onClick={() => handlePlayTrailer(movie)}>
-                    <Play size={12} fill="currentColor" /> Watch Now
-                  </button>
+          return (
+            <div key={`${movie._id}-${index}`} className="movie-premium-card">
+              <div className="poster-frame-wrapper">
+                <img 
+                  src={movie.poster_path} 
+                  alt={movie.title} 
+                  loading="lazy"          
+                  decoding="async"        
+                  className="movie-raw-poster"
+                />
+                
+                {/* Micro-Interaction Class Injection */}
+                <button 
+                  className={`card-save-trigger ${isBookmarked ? 'is-bookmarked' : ''}`} 
+                  onClick={(e) => handleBookmarkClick(e, movie)}
+                >
+                  <Bookmark size={15} fill={isBookmarked ? "currentColor" : "none"} />
+                </button>
+
+                <div className="glass-hover-slider-panel">
+                  <div className="slider-panel-content">
+                    <span className="meta-release-year">
+                      <Star size={12} fill="currentColor" /> {movie.release_date}
+                    </span>
+                    <h3 className="hover-movie-title">{movie.title}</h3>
+                    <p className="hover-movie-cast">{movie.overview?.substring(0, 90)}...</p>
+                    
+                    <button className="premium-inline-play-btn" onClick={() => handlePlayTrailer(movie)}>
+                      <Play size={12} fill="currentColor" /> Watch Now
+                    </button>
+                  </div>
                 </div>
               </div>
+              <div className="mobile-static-metadata">
+                <h4 className="mobile-title-text">{movie.title}</h4>
+              </div>
             </div>
-            <div className="mobile-static-metadata">
-              <h4 className="mobile-title-text">{movie.title}</h4>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

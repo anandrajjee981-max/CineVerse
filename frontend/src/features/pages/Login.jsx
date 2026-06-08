@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { useauth } from './hooks/use.auth';
 import gsap from 'gsap';
 import '../style/login.scss';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
   const { handlelogin, loading } = useauth();
@@ -14,6 +15,9 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const cardRef = useRef(null);
+  const user = useSelector(state => state.auth.user)
+   
+
 
   useEffect(() => {
     gsap.fromTo(cardRef.current,
