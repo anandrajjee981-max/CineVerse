@@ -115,7 +115,7 @@ Built using the MERN Stack with modern frontend architecture, smooth animations,
 
 ### Media & Storage
 
-* Cloudinary
+
 * Multer
 
 ---
@@ -134,7 +134,6 @@ Client (React + Redux)
 
 ---
 
-## 📂 Project Structure
 
 ```bash
 client/
@@ -220,7 +219,7 @@ npm run start
 
 ---
 
-## 🔐 Environment Variables
+
 
 ```env
 PORT=5000
