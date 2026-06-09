@@ -135,27 +135,6 @@ Client (React + Redux)
 ---
 
 
-```bash
-client/
-│
-├── components/
-├── pages/
-├── hooks/
-├── redux/
-├── styles/
-├── routes/
-└── utils/
-
-server/
-│
-├── controllers/
-├── models/
-├── routes/
-├── middleware/
-├── config/
-└── services/
-```
-
 ---
 
 ## 🚀 Core Modules
