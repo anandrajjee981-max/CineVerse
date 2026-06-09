@@ -1,8 +1,11 @@
 # 🎬 CineVerse – Premium Full Stack Movie Streaming Platform
 
+
 CineVerse is a modern full-stack movie streaming platform inspired by Netflix, Prime Video, and JioHotstar. It delivers a premium cinematic experience with movie discovery, search, watchlist management, recent watch tracking, trailer previews, and a highly responsive user interface.
 
 Built using the MERN Stack with modern frontend architecture, smooth animations, and optimized state management.
+
+live link   https://cineverse-zc5r.onrender.com 
 
 ---
 
