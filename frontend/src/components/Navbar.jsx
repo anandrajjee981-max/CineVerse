@@ -13,11 +13,9 @@ const Navbar = () => {
   const location = useLocation(); // 🔥 Get current URL location instance
 
   const navItems = [
-    { name: 'Home', icon: <Home size={20} />, path: '/' },
+    { name: 'Home', icon: <Home size={20} />, path: '/home' },
     { name: 'Search', icon: <Search size={20} />, path: '/search' },
-    { name: 'TV', icon: <Tv size={20} />, path: '/category', defaultFilter: 'all' }, // logic handled via location state below
-    { name: 'Movies', icon: <Clapperboard size={20} />, path: '/category', defaultFilter: 'all' },
-    { name: 'Anime', icon: <Trophy size={20} />, path: '/category', defaultFilter: 'anime' },
+
     { name: 'Sparks', icon: <Flame size={20} />, path: '/sparks' },
     { name: 'Categories', icon: <LayoutGrid size={20} />, path: '/category', defaultFilter: 'all' },
     { name: 'My Space', icon: <User size={20} />, path: '/save' },

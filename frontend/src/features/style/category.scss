@@ -7,6 +7,7 @@ $text-main: #ffffff;
 $surface-grey: rgba(255, 255, 255, 0.06);
 
 .category-filter-wrapper {
+  padding: 15px;
   width: 100%;
   margin-bottom: 25px;
   position: relative;
@@ -98,3 +99,27 @@ $surface-grey: rgba(255, 255, 255, 0.06);
   content-visibility: auto;
   contain-intrinsic-size: 100% 320px;
 }
+   .card-save-trigger {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(0, 0, 0, 0.6);
+        border: none;
+        color: #ffffff;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s, transform 0.2s;
+&.is-bookmarked {
+    background: $accent-color; // Changes background to red (#e50914) dynamically
+    color: #ffffff;
+  }
+        &:hover {
+          background: $accent-color;
+          transform: scale(1.1);
+        }
+      }

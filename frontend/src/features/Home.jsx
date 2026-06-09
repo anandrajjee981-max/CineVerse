@@ -4,6 +4,7 @@ import { Play, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import './style/home.scss';
 import Navbar from '../components/Navbar';
 import Allmovie from './movies/Allmovie';
+import History from './history/History';
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -163,6 +164,7 @@ const Home = () => {
       </div>
 
     </div>
+    <History/>
     <Allmovie/>
   
   </>

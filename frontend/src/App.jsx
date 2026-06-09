@@ -12,9 +12,9 @@ import { useauth } from './features/pages/hooks/use.auth'
 const App = () => {
 const { handlegetme } = useauth() 
 
-  useEffect(() => {
-    handlegetme()
-  }, []) 
+useEffect(() => {
+   handlegetme();
+}, []);
   return (
 
 

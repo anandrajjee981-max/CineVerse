@@ -6,10 +6,12 @@ import { usemovie } from './hooks/movie.auth';
 import '../style/category.scss';
 import '../style/allmovie.scss'; 
 import Navbar from '../../components/Navbar';
+import { usesave } from '../save/hooks/save.auth';
 
 const Category = () => {
   const { handleCategory, handleallmovie } = usemovie();
   const navigate = useNavigate();
+  const { handlesave, handledelete } = usesave();
   
   const moviesState = useSelector((state) => state.movies);
   const loading = moviesState?.loading;
@@ -18,6 +20,7 @@ const Category = () => {
   const [localMovies, setLocalMovies] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [toastMessage, setToastMessage] = useState("");
+  const [bookmarkedIds, setBookmarkedIds] = useState([]);
   
   const isInitialLoaded = useRef(false);
 
@@ -101,6 +104,26 @@ const Category = () => {
     navigate("/trailer");
   };
 
+  const handleBookmarkClick = async (e, movie) => {
+    e.stopPropagation(); 
+    const isAlreadyBookmarked = bookmarkedIds.includes(movie._id);
+
+    try {
+      if (isAlreadyBookmarked) {
+        await handledelete(movie._id);
+        setBookmarkedIds((prev) => prev.filter((id) => id !== movie._id));
+        showToast(`${movie.title} removed from bookmarks.`);
+      } else {
+        await handlesave(movie.title);
+        setBookmarkedIds((prev) => [...prev, movie._id]);
+        showToast(`${movie.title} bookmarked!`);
+      }
+    } catch (err) {
+      console.error("Bookmark handling failed:", err);
+      showToast("Action failed. Please try again.");
+    }
+  };
+
   if (error) {
     return <div className="premium-error-banner">Engine Error: {error}</div>;
   }
@@ -128,7 +151,11 @@ const Category = () => {
       </h2>
       
       {toastMessage && (
-        <div className="premium-toast-alert">
+        <div className="premium-toast-alert" style={{
+          position: 'fixed', top: '30px', left: '50%', transform: 'translateX(-50%)',
+          backgroundColor: 'rgba(20, 20, 20, 0.95)', color: '#fff', padding: '14px 28px',
+          borderRadius: '12px', zIndex: 10000, boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+        }}>
           {toastMessage}
         </div>
       )}
@@ -146,59 +173,60 @@ const Category = () => {
               No blockbusters found for this category segment.
             </div>
           ) : (
-            localMovies.map((movie, index) => (
-              <div key={`${movie._id}-${index}`} className="movie-premium-card">
-                
-                <div className="poster-frame-wrapper">
-                  <img 
-                    src={movie.poster_path} 
-                    alt={movie.title} 
-                    loading="lazy"          
-                    decoding="async"        
-                    className="movie-raw-poster"
-                  />
-                  
-                  <button 
-                    className="card-save-trigger" 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      showToast(`${movie.title} added to watchlist!`);
-                    }}
-                  >
-                    <Bookmark size={15} />
-                  </button>
+            localMovies.map((movie, index) => {
+              const isBookmarked = bookmarkedIds.includes(movie._id);
 
-                  <div className="glass-hover-slider-panel">
-                    <div className="slider-panel-content">
-                      <span className="meta-release-year">
-                        <Star size={12} fill="currentColor" /> {movie.release_date}
-                      </span>
-                      <h3 className="hover-movie-title">{movie.title}</h3>
-                      <p className="hover-movie-cast">{movie.overview?.substring(0, 110)}...</p>
-                      
-                      <div className="hover-genre-pill-row">
-                        {movie.genres?.slice(0, 2).map((g, idx) => (
-                          <span key={idx} className="genre-pill">{g}</span>
-                        ))}
+              return (
+                <div key={`${movie._id}-${index}`} className="movie-premium-card">
+                  
+                  <div className="poster-frame-wrapper">
+                    <img 
+                      src={movie.poster_path} 
+                      alt={movie.title} 
+                      loading="lazy"          
+                      decoding="async"        
+                      className="movie-raw-poster"
+                    />
+                    
+                    <button 
+                      className={`card-save-trigger ${isBookmarked ? 'is-bookmarked' : ''}`} 
+                      onClick={(e) => handleBookmarkClick(e, movie)}
+                    >
+                      <Bookmark size={15} fill={isBookmarked ? "currentColor" : "none"} />
+                    </button>
+
+                    <div className="glass-hover-slider-panel">
+                      <div className="slider-panel-content">
+                        <span className="meta-release-year">
+                          <Star size={12} fill="currentColor" /> {movie.release_date}
+                        </span>
+                        <h3 className="hover-movie-title">{movie.title}</h3>
+                        <p className="hover-movie-cast">{movie.overview?.substring(0, 110)}...</p>
+                        
+                        <div className="hover-genre-pill-row">
+                          {movie.genres?.slice(0, 2).map((g, idx) => (
+                            <span key={idx} className="genre-pill">{g}</span>
+                          ))}
+                        </div>
+                        
+                        <button 
+                          className="premium-inline-play-btn"
+                          onClick={() => handlePlayTrailer(movie)}
+                        >
+                          <Play size={12} fill="currentColor" /> Watch Now
+                        </button>
                       </div>
-                      
-                      <button 
-                        className="premium-inline-play-btn"
-                        onClick={() => handlePlayTrailer(movie)}
-                      >
-                        <Play size={12} fill="currentColor" /> Watch Now
-                      </button>
                     </div>
+
+                  </div>
+
+                  <div className="mobile-static-metadata">
+                    <h4 className="mobile-title-text">{movie.title}</h4>
                   </div>
 
                 </div>
-
-                <div className="mobile-static-metadata">
-                  <h4 className="mobile-title-text">{movie.title}</h4>
-                </div>
-
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       )}

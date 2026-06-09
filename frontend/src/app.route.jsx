@@ -7,6 +7,7 @@ import Login from "./features/pages/Login"
 import Register from "./features/pages/Register"
 import Save from "./features/save/Save"
 import Protected from "./Protected"
+import Sparks from "./features/movies/Sparks"
 
 
 
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
 {
     path : '/save' ,
     element : <Save/>
+},
+{
+    path : '/sparks',
+    element : <Sparks/>
 }
 
 

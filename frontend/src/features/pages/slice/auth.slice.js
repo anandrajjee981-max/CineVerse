@@ -17,12 +17,12 @@ export const authslice = createSlice({
             state.error = null;
         },
         // Login/Register Success
-        authSuccess: (state, action) => {
-            state.loading = false;
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            state.isAuthenticated = true;
-        },
+      authSuccess: (state, action) => {
+    state.loading = false;
+    state.user = action.payload.user || action.payload;
+    state.token = action.payload.token || null;
+    state.isAuthenticated = true;
+},
 
         // Login/Register Failed
         authFailure: (state, action) => {
@@ -44,16 +44,10 @@ export const authslice = createSlice({
 // Export Actions
 
 export const {
-
     authStart,
-
     authSuccess,
-
     authFailure,
-
-    logout ,
-    ...auth
-
+    logout
 } = authslice.actions;
 
 // Export Reducer

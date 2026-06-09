@@ -5,10 +5,10 @@ import '../style/allmovie.scss';
 import { usemovie } from './hooks/movie.auth';
 import { useNavigate } from 'react-router-dom';
 import { usesave } from '../save/hooks/save.auth';
+import addToRecentWatch from '../history/utils/recentwatch';
 
 const Allmovie = () => {
-     const user = useSelector(state => state.auth.user)
- 
+  const user = useSelector(state => state.auth.user);
   const { handleallmovie } = usemovie();
   const { handlesave, handledelete } = usesave();
   const { movies, loading, error } = useSelector((state) => state.movies);
@@ -18,15 +18,14 @@ const Allmovie = () => {
   const [visibleCount, setVisibleCount] = useState(10);
   const locomotiveRef = useRef(null);
   const isFetchedRef = useRef(false);
-
   const [toastMessage, setToastMessage] = useState("");
- useEffect(() => {
-  if (!loading && user) {
-    navigate('/home');
-  }
-}, [loading, user, navigate]);
-  // 🔥 Tracking bookmarks via local state array matching your UI structure
   const [bookmarkedIds, setBookmarkedIds] = useState([]);
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate('/home');
+    }
+  }, [loading, user, navigate]);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -87,32 +86,37 @@ const Allmovie = () => {
     };
   }, [movieDataList.length]);
 
-  const handlePlayTrailer = async (movie) => {
+  //  FIX: Clean execution context for watch state management & navigation
+  const handlePlayTrailer = (movie) => {
     if (!movie?.title) return;
+    
+    // 1. History localstorage updating
+    addToRecentWatch(movie);
+    
+    // 2. Setting dynamic parameters for streaming engine route
     localStorage.setItem("lastTrailer", JSON.stringify({
+      id: movie._id,
       title: movie.title,
+      poster: movie.poster_path,
+      overview: movie.overview,
       year: movie.release_date?.split("-")[0] || "",
     }));
+    
+    // 3. Trigger immediate navigational routing
     navigate("/trailer");
   };
 
-  // 🔥 Operational Bookmark Click Handler
   const handleBookmarkClick = async (e, movie) => {
-    e.stopPropagation(); // Stops parent grid layout hovers from breaking
-    
+    e.stopPropagation(); 
     const isAlreadyBookmarked = bookmarkedIds.includes(movie._id);
 
     try {
       if (isAlreadyBookmarked) {
-        // If your backend deletes using title, change this to movie.title
         await handledelete(movie._id);
-        
         setBookmarkedIds((prev) => prev.filter((id) => id !== movie._id));
         showToast(`${movie.title} removed from bookmarks.`);
       } else {
-        // 🚀 FIXED: Passing movie.title to match hook expectations and prevent 404 errors
         await handlesave(movie.title);
-        
         setBookmarkedIds((prev) => [...prev, movie._id]);
         showToast(`${movie.title} bookmarked!`);
       }
@@ -149,7 +153,6 @@ const Allmovie = () => {
 
       <div className="movies-flex-wrap-grid">
         {movieDataList.slice(0, visibleCount).map((movie, index) => {
-          
           const isBookmarked = bookmarkedIds.includes(movie._id);
 
           return (
@@ -163,7 +166,6 @@ const Allmovie = () => {
                   className="movie-raw-poster"
                 />
                 
-                {/* Micro-Interaction Class Injection */}
                 <button 
                   className={`card-save-trigger ${isBookmarked ? 'is-bookmarked' : ''}`} 
                   onClick={(e) => handleBookmarkClick(e, movie)}
@@ -179,6 +181,7 @@ const Allmovie = () => {
                     <h3 className="hover-movie-title">{movie.title}</h3>
                     <p className="hover-movie-cast">{movie.overview?.substring(0, 90)}...</p>
                     
+                    {/* Fixed click wrapper connection */}
                     <button className="premium-inline-play-btn" onClick={() => handlePlayTrailer(movie)}>
                       <Play size={12} fill="currentColor" /> Watch Now
                     </button>

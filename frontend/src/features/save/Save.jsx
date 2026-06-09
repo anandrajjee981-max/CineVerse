@@ -4,6 +4,7 @@ import { Trash2, Play, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { usesave } from '../save/hooks/save.auth';
 import '../style/allmovie.scss';
+import Navbar from '../../components/Navbar'
 
 const Save = () => {
   const { handleallsave, handledelete } = usesave();
@@ -60,6 +61,7 @@ const savedDataList = Array.isArray(saved)
 
   return (
     <div className="jiohotstar-showcase-container">
+    <Navbar/>
       <h2 className="section-main-heading">My Bookmarked Collection</h2>
       
       {toastMessage && (
