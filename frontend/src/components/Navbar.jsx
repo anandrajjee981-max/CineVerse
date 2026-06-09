@@ -21,7 +21,7 @@ const Navbar = () => {
     { name: 'My Space', icon: <User size={20} />, path: '/save' },
   ];
 
-  // 🔥 URL Route Change Detector Effect
+  //  URL Route Change Detector Effect
   useEffect(() => {
     const currentPath = location.pathname;
     const currentState = location.state;
@@ -99,7 +99,7 @@ const Navbar = () => {
           <svg className="star-logo" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/>
           </svg>
-          <span className="brand-title">CineSpace</span>
+          <span className="brand-title">CineVerse</span>
         </div>
 
         <button 
