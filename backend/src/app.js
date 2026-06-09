@@ -2,11 +2,13 @@ const express = require("express")
 const app = express()
 const cors = require("cors")
 app.use(cors({
-    credentials : true ,
-     origin: [
-    "http://localhost:5173",
-  
-  ]
+    credentials: true,
+    origin: (origin, callback) => {
+      if (!origin || /^https?:\/\/localhost(?::\d+)?$/.test(origin)) {
+        return callback(null, true)
+      }
+      callback(new Error("Not allowed by CORS"))
+    },
 }))
 
 app.use(express.json())

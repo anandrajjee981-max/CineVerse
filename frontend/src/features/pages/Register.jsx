@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useauth } from './hooks/use.auth'; // Make sure your useauth hook exposes handleregister
 import gsap from 'gsap';
 import '../style/login.scss'; // Reusing the premium login styles

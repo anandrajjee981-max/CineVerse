@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useLocation } from 'react-router'; // 🔥 Imported useLocation
+import { useNavigate, useLocation } from 'react-router-dom'; // 🔥 Imported useLocation
 import { Home, Search, Tv, Clapperboard, Trophy, Flame, LayoutGrid, User, Menu, X } from 'lucide-react';
 import '../features/style/navbar.scss';
 

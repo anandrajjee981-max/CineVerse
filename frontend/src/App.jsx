@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import Home from './features/Home'
 import Homecomponent from './components/Homecomponent'
 import Navbar from './components/Navbar'
-import { Provider } from 'react-redux'
-import { store } from './features/redux/Auth.store'
-import { RouterProvider } from 'react-router'
+
+
+import { RouterProvider } from 'react-router-dom'
 import { router } from './app.route'
 import { useauth } from './features/pages/hooks/use.auth'
 

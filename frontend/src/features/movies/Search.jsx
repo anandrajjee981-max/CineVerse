@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Play, Bookmark, Star, Search as SearchIcon, X } from 'lucide-react';
 import { usemovie } from './hooks/movie.auth';
 import '../style/search.scss';

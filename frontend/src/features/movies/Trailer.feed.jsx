@@ -1,7 +1,7 @@
 // TrailerFeed.jsx — drop-in replacement
 
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_YT_API_KEY;
 

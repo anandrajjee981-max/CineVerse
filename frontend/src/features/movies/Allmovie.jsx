@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Play, Bookmark, Star } from 'lucide-react';
 import '../style/allmovie.scss';
 import { usemovie } from './hooks/movie.auth';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { usesave } from '../save/hooks/save.auth';
 
 const Allmovie = () => {
@@ -20,10 +20,11 @@ const Allmovie = () => {
   const isFetchedRef = useRef(false);
 
   const [toastMessage, setToastMessage] = useState("");
-  if(!loading && user){
-    return navigate('/home')
+ useEffect(() => {
+  if (!loading && user) {
+    navigate('/home');
   }
-  
+}, [loading, user, navigate]);
   // 🔥 Tracking bookmarks via local state array matching your UI structure
   const [bookmarkedIds, setBookmarkedIds] = useState([]);
 

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router"
+import { createBrowserRouter } from "react-router-dom"
 import Home from "./features/Home"
 import TrailerFeed from "./features/movies/Trailer.feed"
 import Category from "./features/movies/Category"

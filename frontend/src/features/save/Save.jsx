@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Trash2, Play, Star } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { usesave } from '../save/hooks/save.auth';
 import '../style/allmovie.scss';
 
 const Save = () => {
   const { handleallsave, handledelete } = usesave();
-  const { movies, loading, error } = useSelector((state) => state.movies);
+const { saved, loading, error } = useSelector((state) => state.save);
   const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState("");
 
@@ -20,7 +20,10 @@ const Save = () => {
     handleallsave();
   }, []);
 
-  const savedDataList = movies?.save || (Array.isArray(movies) ? movies : []);
+
+const savedDataList = Array.isArray(saved)
+  ? saved
+  : saved?.save || [];
 
   const handlePlayTrailer = (movie) => {
     if (!movie?.title) return;

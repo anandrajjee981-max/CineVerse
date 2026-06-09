@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Play, Bookmark, Star } from 'lucide-react';
 import { usemovie } from './hooks/movie.auth';
 import '../style/category.scss';
