@@ -98,14 +98,17 @@ const Category = () => {
   const handlePlayTrailer = (movie) => {
     if (!movie?.title) { showToast("Movie title missing!"); return; }
     localStorage.setItem("lastTrailer", JSON.stringify({
+      id: movie._id,
       title: movie.title,
-      year: movie.release_date || "",
+      poster: movie.poster_path,
+      overview: movie.overview,
+      year: movie.release_date?.split("-")[0] || "",
     }));
     navigate("/trailer");
   };
 
   const handleBookmarkClick = async (e, movie) => {
-    e.stopPropagation(); 
+    e.stopPropagation(); // 🔥 Crucial: Stops the click from bubbling up and launching the movie trailer
     const isAlreadyBookmarked = bookmarkedIds.includes(movie._id);
 
     try {
@@ -179,7 +182,8 @@ const Category = () => {
               return (
                 <div key={`${movie._id}-${index}`} className="movie-premium-card">
                   
-                  <div className="poster-frame-wrapper">
+                  {/* 🔥 FIXED: Clicking the poster frame wrapper now triggers the playback router */}
+                  <div className="poster-frame-wrapper" onClick={() => handlePlayTrailer(movie)}>
                     <img 
                       src={movie.poster_path} 
                       alt={movie.title} 
@@ -209,10 +213,8 @@ const Category = () => {
                           ))}
                         </div>
                         
-                        <button 
-                          className="premium-inline-play-btn"
-                          onClick={() => handlePlayTrailer(movie)}
-                        >
+                        {/* Event action bubbles up beautifully into poster-frame-wrapper wrapper */}
+                        <button className="premium-inline-play-btn">
                           <Play size={12} fill="currentColor" /> Watch Now
                         </button>
                       </div>
@@ -220,7 +222,8 @@ const Category = () => {
 
                   </div>
 
-                  <div className="mobile-static-metadata">
+                  {/* 🔥 FIXED: Static details on mobile are now responsive context targets */}
+                  <div className="mobile-static-metadata" onClick={() => handlePlayTrailer(movie)}>
                     <h4 className="mobile-title-text">{movie.title}</h4>
                   </div>
 

@@ -26,7 +26,11 @@ const token = jwt.sign({
 },
 process.env.JWT_SECRET, {expiresIn : "1d"}
 )
-res.cookie("token",token)
+res.cookie('token', token, {
+    httpOnly: true,
+    secure: true,      // Required for HTTPS on Render
+    sameSite: 'none'   // Required for cross-domain cookie transfers
+});
 res.status(200).json({
     message : "user profile created" ,
     user :{
@@ -83,8 +87,11 @@ async function login(req, res) {
             { expiresIn: "1d" }
         );
 
-        // 6. Send Response
-        res.cookie("token", token);
+     res.cookie('token', token, {
+    httpOnly: true,
+    secure: true,      // Required for HTTPS on Render
+    sameSite: 'none'   // Required for cross-domain cookie transfers
+});
         return res.status(200).json({
             message: "Login successful",
             user: { id: user._id, username: user.username, email: user.email } // Optional: return user info

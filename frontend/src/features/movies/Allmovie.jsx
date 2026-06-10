@@ -86,7 +86,6 @@ const Allmovie = () => {
     };
   }, [movieDataList.length]);
 
-  //  FIX: Clean execution context for watch state management & navigation
   const handlePlayTrailer = (movie) => {
     if (!movie?.title) return;
     
@@ -107,7 +106,7 @@ const Allmovie = () => {
   };
 
   const handleBookmarkClick = async (e, movie) => {
-    e.stopPropagation(); 
+    e.stopPropagation(); // Prevents launching the trailer when bookmarking
     const isAlreadyBookmarked = bookmarkedIds.includes(movie._id);
 
     try {
@@ -157,7 +156,8 @@ const Allmovie = () => {
 
           return (
             <div key={`${movie._id}-${index}`} className="movie-premium-card">
-              <div className="poster-frame-wrapper">
+              {/* FIXED: Clicking the frame wrapper now launches trailer natively on mobile/desktop */}
+              <div className="poster-frame-wrapper" onClick={() => handlePlayTrailer(movie)}>
                 <img 
                   src={movie.poster_path} 
                   alt={movie.title} 
@@ -181,14 +181,14 @@ const Allmovie = () => {
                     <h3 className="hover-movie-title">{movie.title}</h3>
                     <p className="hover-movie-cast">{movie.overview?.substring(0, 90)}...</p>
                     
-                    {/* Fixed click wrapper connection */}
-                    <button className="premium-inline-play-btn" onClick={() => handlePlayTrailer(movie)}>
+                    {/* Kept wrapper clean; click bubbles up safely into poster-frame-wrapper execution handler */}
+                    <button className="premium-inline-play-btn">
                       <Play size={12} fill="currentColor" /> Watch Now
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="mobile-static-metadata">
+              <div className="mobile-static-metadata" onClick={() => handlePlayTrailer(movie)}>
                 <h4 className="mobile-title-text">{movie.title}</h4>
               </div>
             </div>

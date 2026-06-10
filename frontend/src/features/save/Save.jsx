@@ -4,11 +4,11 @@ import { Trash2, Play, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { usesave } from '../save/hooks/save.auth';
 import '../style/allmovie.scss';
-import Navbar from '../../components/Navbar'
+import Navbar from '../../components/Navbar';
 
 const Save = () => {
   const { handleallsave, handledelete } = usesave();
-const { saved, loading, error } = useSelector((state) => state.save);
+  const { saved, loading, error } = useSelector((state) => state.save);
   const navigate = useNavigate();
   const [toastMessage, setToastMessage] = useState("");
 
@@ -21,24 +21,27 @@ const { saved, loading, error } = useSelector((state) => state.save);
     handleallsave();
   }, []);
 
-
-const savedDataList = Array.isArray(saved)
-  ? saved
-  : saved?.save || [];
+  const savedDataList = Array.isArray(saved)
+    ? saved
+    : saved?.save || [];
 
   const handlePlayTrailer = (movie) => {
     if (!movie?.title) return;
+
+    // Unified metadata payload matching your streaming engine configuration
     localStorage.setItem("lastTrailer", JSON.stringify({
+      id: movie._id,
       title: movie.title,
-      year: movie.release_date || "",
+      poster: movie.poster_path,
+      overview: movie.overview,
+      year: movie.release_date?.split("-")[0] || "",
     }));
     navigate("/trailer");
   };
 
   const handleRemoveBookmark = async (e, movieTitle) => {
-    e.stopPropagation(); 
+    e.stopPropagation(); // 🔥 Crucial: Prevents running handlePlayTrailer when tapping delete
     try {
-      // 🚀 FIXED: यहाँ अब सीधा मूवी का नाम (title) जा रहा है
       await handledelete(movieTitle); 
       showToast(`${movieTitle} removed from your bookmarks.`);
       await handleallsave(); 
@@ -61,7 +64,7 @@ const savedDataList = Array.isArray(saved)
 
   return (
     <div className="jiohotstar-showcase-container">
-    <Navbar/>
+      <Navbar/>
       <h2 className="section-main-heading">My Bookmarked Collection</h2>
       
       {toastMessage && (
@@ -86,7 +89,9 @@ const savedDataList = Array.isArray(saved)
 
             return (
               <div key={`${item._id}-${index}`} className="movie-premium-card">
-                <div className="poster-frame-wrapper">
+                
+                {/* 🔥 FIXED: Entire poster framework listens to tap streams natively on mobile */}
+                <div className="poster-frame-wrapper" onClick={() => handlePlayTrailer(movie)}>
                   <img 
                     src={movie.poster_path} 
                     alt={movie.title} 
@@ -95,7 +100,6 @@ const savedDataList = Array.isArray(saved)
                     className="movie-raw-poster"
                   />
                   
-                  {/* 🚀 FIXED: onClick में अब सीधा movie.title पास हो रहा है */}
                   <button 
                     className="card-save-trigger" 
                     style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
@@ -113,15 +117,19 @@ const savedDataList = Array.isArray(saved)
                       <h3 className="hover-movie-title">{movie.title}</h3>
                       <p className="hover-movie-cast">{movie.overview?.substring(0, 90)}...</p>
                       
-                      <button className="premium-inline-play-btn" onClick={() => handlePlayTrailer(movie)}>
+                      {/* Kept here for desktop, action safely bubbles into the parent frame */}
+                      <button className="premium-inline-play-btn">
                         <Play size={12} fill="currentColor" /> Watch Now
                       </button>
                     </div>
                   </div>
                 </div>
-                <div className="mobile-static-metadata">
+
+                {/* 🔥 FIXED: Mobile text label container is now an interactive router target too */}
+                <div className="mobile-static-metadata" onClick={() => handlePlayTrailer(movie)}>
                   <h4 className="mobile-title-text">{movie.title}</h4>
                 </div>
+
               </div>
             );
           })}

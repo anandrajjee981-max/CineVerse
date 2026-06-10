@@ -21,13 +21,13 @@ const Search = () => {
   const extractMoviesArray = (rawData) => {
     if (!rawData) return [];
     if (Array.isArray(rawData)) return rawData;
-    if (rawData.movie) return [rawData.movie]; // Agar object hai toh array bana do mapping ke liye
+    if (rawData.movie) return [rawData.movie]; // Wrap single objects to map gracefully
     if (rawData.movies && Array.isArray(rawData.movies)) return rawData.movies;
     if (rawData.data && Array.isArray(rawData.data)) return rawData.data;
     return [];
   };
 
-  // 🔥 Trigger API search call only on user submission
+  // Trigger API search call only on user submission
   const executeSearchAction = async (e) => {
     if (e) e.preventDefault();
     if (!query.trim()) return;
@@ -47,9 +47,14 @@ const Search = () => {
 
   const handlePlayTrailer = (movie) => {
     if (!movie?.title) { showToast("Movie title missing!"); return; }
+    
+    // Unified payload footprint matching upstream streaming configurations
     localStorage.setItem("lastTrailer", JSON.stringify({
+      id: movie._id,
       title: movie.title,
-      year: movie.release_date || "",
+      poster: movie.poster_path,
+      overview: movie.overview,
+      year: movie.release_date?.split("-")[0] || "",
     }));
     navigate("/trailer");
   };
@@ -120,7 +125,9 @@ const Search = () => {
           ) : (
             localMovies.map((movie, index) => (
               <div key={`${movie._id}-${index}`} className="movie-premium-card">
-                <div className="poster-frame-wrapper">
+                
+                {/* 🔥 FIXED: Added interactive click targets to the parent frame wrapper */}
+                <div className="poster-frame-wrapper" onClick={() => handlePlayTrailer(movie)}>
                   <img 
                     src={movie.poster_path} 
                     alt={movie.title} 
@@ -132,7 +139,7 @@ const Search = () => {
                   <button 
                     className="card-save-trigger" 
                     onClick={(e) => {
-                      e.stopPropagation();
+                      e.stopPropagation(); // Prevents accidental trailer activation
                       showToast(`${movie.title} added to watchlist!`);
                     }}
                   >
@@ -153,17 +160,16 @@ const Search = () => {
                         ))}
                       </div>
                       
-                      <button 
-                        className="premium-inline-play-btn"
-                        onClick={() => handlePlayTrailer(movie)}
-                      >
+                      {/* Clicks safely bubble into the parent frame element configuration */}
+                      <button className="premium-inline-play-btn">
                         <Play size={12} fill="currentColor" /> Watch Now
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="mobile-static-metadata">
+                {/* 🔥 FIXED: Tied down metadata click targets for optimal mobile rendering */}
+                <div className="mobile-static-metadata" onClick={() => handlePlayTrailer(movie)}>
                   <h4 className="mobile-title-text">{movie.title}</h4>
                 </div>
               </div>
